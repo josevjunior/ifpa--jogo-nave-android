@@ -28,12 +28,8 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "ViewDoJogo"; // for logging errors
 
-    // constants for the Cannon
     public static final double NAVE_WIDTH_PERCENT = 3.0 / 40;
     public static final double NAVE_LENGTH_PERCENT = 1.0 / 10;
-
-    public static final double TARGET_MIN_SPEED_PERCENT = 3.0 / 4;
-    public static final double TARGET_MAX_SPEED_PERCENT = 6.0 / 4;
 
     // text size 1/18 of screen width
     public static final double TEXT_SIZE_PERCENT = 1.0 / 30;
@@ -57,11 +53,6 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
     // variables for the game loop and tracking statistics
     private boolean gameOver; // is the game over?
     private int pontos = 0;
-
-    // constants and variables for managing sounds
-    public static final int TARGET_SOUND_ID = 0;
-    public static final int CANNON_SOUND_ID = 1;
-    public static final int BLOCKER_SOUND_ID = 2;
 
     // Paint variables used when drawing each item on the screen
     private Paint textPaint; // Paint used to draw text
@@ -133,7 +124,6 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
         @Override
         public void run() {
             int positionInScreen = random.nextInt(screenWidth);
-            int velocity = random.nextInt(9);
             navesInimigas.add(new NaveInimiga(
                     ViewDoJogo.this,
                     R.color.blue,
@@ -156,10 +146,6 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
 
     private void updatePositions(double elapsedTimeMS) {
         double interval = elapsedTimeMS / 1000.0; // convert to seconds
-
-        double velocity = screenHeight * (random.nextDouble() *
-                (TARGET_MAX_SPEED_PERCENT - TARGET_MIN_SPEED_PERCENT) +
-                TARGET_MIN_SPEED_PERCENT);
 
         nave.update(interval);
 
@@ -238,13 +224,12 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
     public void stopGame() {
         if (threadDoJogo != null)
             threadDoJogo.setRunning(false); // tell thread to terminate
-            handler.removeCallbacks(criarNaveInimiga);
+        handler.removeCallbacks(criarNaveInimiga);
     }
 
     // called when surface changes size
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format,
-                               int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
     // called when surface is first created

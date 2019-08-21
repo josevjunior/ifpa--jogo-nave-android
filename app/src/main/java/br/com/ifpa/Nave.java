@@ -33,20 +33,16 @@ public class Nave extends ElementoDoJogo {
         if (movendo) {
             int movimento = (int) (velocity * interval);
 
-            if (((direcaoDaNave == DirecaoDaNave.ESQUERDA) && (shape.left + movimento >= 0))
-                    || ((direcaoDaNave == DirecaoDaNave.DIREITA) && (shape.left + movimento <= view.getScreenWidth() - shape.width()))){
-
-                    shape.offset(movimento, 0);
-
-                }
+            if (((direcaoDaNave == DirecaoDaNave.ESQUERDA)
+                && (shape.left + movimento >= 0))
+                || ((direcaoDaNave == DirecaoDaNave.DIREITA)
+                && (shape.left + movimento <= view.getScreenWidth() - shape.width()))) {
+                shape.offset(movimento, 0);
             }
         }
-
-        public boolean isMovendo () {
-            return movendo;
-        }
-
-        public void setMovendo ( boolean movendo){
-            this.movendo = movendo;
-        }
     }
+
+    public void setMovendo ( boolean movendo){
+        this.movendo = movendo;
+    }
+}
