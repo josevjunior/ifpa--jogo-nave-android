@@ -3,6 +3,8 @@ package br.com.ifpa;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -58,6 +60,9 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
     private Paint textPaint; // Paint used to draw text
     private Paint backgroundPaint; // Paint used to clear the drawing area
 
+    private Bitmap bitmapNave = BitmapFactory.decodeResource(this.getResources(), R.drawable.nave);
+    private Bitmap bitmapNaveInimiga = BitmapFactory.decodeResource(this.getResources(), R.drawable.naveinimiga);
+
     // constructor
     public ViewDoJogo(Context context, AttributeSet attrs) {
         super(context, attrs); // call superclass constructor
@@ -79,9 +84,10 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
 
         textPaint.setTextSize((int) (TEXT_SIZE_PERCENT * screenHeight));
         textPaint.setAntiAlias(true); // smoothes the text
+        textPaint.setColor(Color.WHITE);
 
         backgroundPaint = new Paint();
-        backgroundPaint.setColor(Color.WHITE);
+        backgroundPaint.setColor(Color.BLACK);
     }
 
     public int getScreenWidth() {
@@ -104,11 +110,13 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
         int naveWidth = (int) (NAVE_WIDTH_PERCENT * screenWidth);
         int naveHeight = (int) (NAVE_LENGTH_PERCENT * screenHeight);
         nave = new Nave(this,
+                Color.BLACK,
                 (screenWidth / 2) - naveWidth,
                 screenHeight - naveHeight,
                 (screenWidth / 2) + naveWidth,
                 screenHeight,
-                200
+                800,
+                bitmapNave
         );
 
         if (gameOver) { // start a new game after the last game ended
@@ -126,12 +134,13 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
             int positionInScreen = random.nextInt(screenWidth);
             navesInimigas.add(new NaveInimiga(
                     ViewDoJogo.this,
-                    R.color.blue,
+                    Color.BLACK,
                     positionInScreen,
                     0,
                     positionInScreen + 20,
                     40,
-                    gerarNumeroAleatorio(2, 4) * 100
+                    gerarNumeroAleatorio(2, 4) * 100,
+                    bitmapNaveInimiga
             ));
 
             handler.postDelayed(this, 500);
@@ -165,7 +174,7 @@ public class ViewDoJogo extends SurfaceView implements SurfaceHolder.Callback {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 builder.setCancelable(false)
                         .setTitle("Game Over")
-                        .setMessage("Você Perdeu!")
+                        .setMessage("Você Perdeu!\n" + "Pontuação: "+ pontos)
                         .setPositiveButton("Tentar Novamente", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -1,6 +1,6 @@
 package br.com.ifpa;
 
-import android.graphics.Canvas;
+import android.graphics.Bitmap;
 
 public class Nave extends ElementoDoJogo {
 
@@ -11,14 +11,14 @@ public class Nave extends ElementoDoJogo {
     private boolean movendo;
     private DirecaoDaNave direcaoDaNave;
 
-    public Nave(ViewDoJogo view, int left, int top, int right, int bottom, float velocityY) {
-        super(view, R.color.blue, left, top, right, bottom, velocityY);
+    public Nave(ViewDoJogo view, int color, int left, int top, int right, int bottom, float velocityY, Bitmap bitmap) {
+        super(view, color, left, top, right, bottom, velocityY, bitmap);
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        canvas.drawRect(shape, paint);
-    }
+//    @Override
+//    public void draw(Canvas canvas) {
+//        canvas.drawRect(shape, paint);
+//    }
 
     public void setDirecaoDaNave(DirecaoDaNave direcaoDaNave) {
         this.direcaoDaNave = direcaoDaNave;
